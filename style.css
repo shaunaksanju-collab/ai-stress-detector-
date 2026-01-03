@@ -1,0 +1,14 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f4f4f4;
+}
+
+textarea {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+video {
+  border: 2px solid black;
+}
