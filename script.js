@@ -133,7 +133,7 @@ function startDetection() {
       e.fearful * 2.0 +
       e.sad * 1.2 +
       e.disgusted * 1.4 +
-      browStress * 2.5;
+      browStress * 2.0;
 
     const faceStress = expressionStress + browStress;
 
