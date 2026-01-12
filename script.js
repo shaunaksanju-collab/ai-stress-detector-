@@ -115,9 +115,9 @@ function startDetection() {
     let browStress = 0;
     const browEyeDistance = eyeY - browY;
 
-    if (browEyeDistance < 29) browStress = 0.5;
-    if (browEyeDistance < 27) browStress = 1.0;
-    if (browEyeDistance < 24) browStress = 1.5;
+    if (browEyeDistance < 26) browStress = 0.5;
+    if (browEyeDistance < 24) browStress = 1.0;
+    if (browEyeDistance < 23) browStress = 1.5;
     console.log(
       'brow eye distance:',
       browEyeDistance.toFixed(2),
