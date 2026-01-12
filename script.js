@@ -88,17 +88,15 @@ function startDetection() {
     } else if (now - lastFaceTime > FACE_TIMEOUT) {
       statusText.innerText = 'Status: No face detected';
       stressBar.style.width = '0%';
-      stressHistory = [];
       stressStartTime = null;
       breakAlertShown = false;
       return;
     }
 
     if (!detection) return;
-    const landmarks = detection.landmarks;
 
-    // ---------- CONFIDENCE FILTER ----------
-    if (detection.expressions.neutral > 0.85) return;
+    // ---------- LANDMARKS ----------
+    const landmarks = detection.landmarks;
 
     function avgY(points) {
       return points.reduce((sum, p) => sum + p.y, 0) / points.length;
@@ -112,22 +110,24 @@ function startDetection() {
     const browY = (avgY(leftBrow) + avgY(rightBrow)) / 2;
     const eyeY = (avgY(leftEye) + avgY(rightEye)) / 2;
 
-    let browStress = 0;
     const browEyeDistance = eyeY - browY;
 
-    if (browEyeDistance < 26) browStress = 0.5;
-    if (browEyeDistance < 24) browStress = 1.0;
-    if (browEyeDistance < 23) browStress = 1.5;
+    // ---------- BROW STRESS ----------
+    let browStress = 0;
+    if (browEyeDistance < 31) browStress = 0.5;
+    if (browEyeDistance < 27) browStress = 1.0;
+    if (browEyeDistance < 25.5) browStress = 1.5;
+
     console.log(
       'brow eye distance:',
       browEyeDistance.toFixed(2),
-      'browstress:'
+      '| browStress:',
+      browStress
     );
 
-    // ---------- FACE STRESS (LANDMARK + EXPRESSION) ----------
+    // ---------- FACE STRESS (EXPRESSIONS + LANDMARK) ----------
     const e = detection.expressions;
 
-    // Expression-based stress (lighter than before)
     const expressionStress =
       e.angry * 1.8 +
       e.fearful * 2.0 +
@@ -135,7 +135,6 @@ function startDetection() {
       e.disgusted * 1.4 +
       browStress * 2.5;
 
-    // faceStress now includes eyebrow tension from Step 4
     const faceStress = expressionStress + browStress;
 
     // ---------- TYPING STRESS ----------
@@ -145,8 +144,6 @@ function startDetection() {
 
     // ---------- FUSED STRESS ----------
     const finalStress = faceStress * 0.75 + typingStress * 0.25;
-
-    // ---------- TEMPORAL SMOOTHING ----------
 
     // ---------- LEVEL ----------
     let level = 'Low Load';
@@ -176,9 +173,10 @@ function startDetection() {
       console.log('Stressed for:', stressedSeconds.toFixed(1), 'seconds');
 
       if (stressedSeconds >= 10 && !breakAlertShown) {
-        const randommessages =
+        const randomMessage =
           stressMessages[Math.floor(Math.random() * stressMessages.length)];
-        alert('⚠️ stress detected`\n\n' + randommessages);
+        alert('⚠️ Stress detected!\n\n' + randomMessage);
+        breakAlertShown = true; // prevent multiple alerts
       }
     } else {
       stressStartTime = null;
