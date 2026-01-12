@@ -1,24 +1,73 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Cognitive Load Detector</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Stress Detector</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+      }
 
-<h1>Cognitive Load Detection AI</h1>
+      video {
+        border: 2px solid #333;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
 
-<p>Webcam (facial expressions):</p>
-<video id="video" width="320" height="240" autoplay muted></video>
+      #stressBarContainer {
+        width: 320px;
+        height: 20px;
+        background: #ccc;
+        border: 1px solid #000;
+        margin: 10px auto;
+        border-radius: 5px;
+      }
 
-<p>Typing area:</p>
-<textarea id="typingArea" rows="6" cols="50"
-  placeholder="Start typing here..."></textarea>
+      #stressBar {
+        width: 0%;
+        height: 100%;
+        background-color: green;
+        border-radius: 5px;
+        transition: width 0.3s, background-color 0.3s;
+      }
 
-<h2 id="status">Status: Analyzing...</h2>
+      #status {
+        font-weight: bold;
+        margin: 10px 0;
+      }
 
-<script src="https://unpkg.com/face-api.js"></script>
-<script src="script.js"></script>
+      #startBtn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI Stress Detector</h1>
 
-</body>
+    <video id="video" width="320" height="240" autoplay muted></video>
+    <p id="status">Status: Waiting</p>
+    <button id="startBtn">Start Camera</button>
+
+    <!-- VISUAL BAR -->
+    <div id="stressBarContainer">
+      <div id="stressBar"></div>
+    </div>
+    <p>Type here to measure typing speed:</p>
+    <textarea
+      id="typingArea"
+      rows="5"
+      cols="40"
+      placeholder="Start typing..."
+    ></textarea>
+    <p id="typingSpeed">Typing speed: 0 CPM</p>
+
+    <!-- Face API JS -->
+    <script src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <!-- Your main script -->
+    <script src="script.js"></script>
+  </body>
 </html>

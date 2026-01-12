@@ -4,11 +4,27 @@ body {
   background: #f4f4f4;
 }
 
-textarea {
-  font-size: 16px;
+video {
+  border: 2px solid black;
   margin-top: 10px;
 }
 
-video {
-  border: 2px solid black;
+textarea {
+  margin-top: 10px;
+  font-size: 16px;
+}
+.bar-container {
+  width: 300px;
+  height: 20px;
+  background: #334155;
+  margin: 15px auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#stressBar {
+  height: 100%;
+  width: 0%;
+  background: green;
+  transition: width 0.4s ease, background 0.4s ease;
 }
